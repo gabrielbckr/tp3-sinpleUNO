@@ -3,7 +3,7 @@ import socket as sock
 
 print (len(sys.argv))
 if (len(sys.argv))<3:
-    print ("USAGE: python3 servidor.py host port")
+    print ("Uso: python3 servidor.py <host> <porta>")
 host = sys.argv[1]
 port = int(sys.argv[2])
 if host == 'local' or host == 'Local':
@@ -14,7 +14,6 @@ s.connect((host, port))
 data =  "a b c d "
 
 s.send(str(data).encode())
-print("Game Started")
 
 data = s.recv(1024)
 print(data.decode())

@@ -16,6 +16,16 @@ class sockThread (threading.Thread):
             msg = self.rcvQ.get()
             self.s.send(msg.encode())
 
+class refuseConnection (threading.Thread):
+    def __init__(self, sr):
+        threading.Thread.__init__(self)
+        self.s = sr
+    def run(self):
+        self.s.listen(numPlayers)
+        r , rr = s.accept()
+        r.send("refuse".encode())
+        del(rr)
+        r.close()
 
 print (len(sys.argv))
 if (len(sys.argv))<2:
@@ -41,7 +51,9 @@ while ii < numPlayers:
     player.start()
     ii+=1
 
-print("reach here") 
+refuser = refuseConnection(s)
+refuser.start()
+
 jj = 0
 ii = 0
 while True:

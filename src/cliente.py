@@ -17,5 +17,7 @@ while True:
     data = s.recv(1024)
     print(ii, " ", data.decode())
     ii += 1
+    if data.decode() == "refuse":
+        break
 
 s.close()

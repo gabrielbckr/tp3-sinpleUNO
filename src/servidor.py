@@ -1,17 +1,20 @@
 import sys
 import socket as sock
 import threading
-import time
+import queue
 
 class sockThread (threading.Thread):
-   def __init__(self, threadID, name, skt):
+   def __init__(self, threadID, name, skt, q):
       threading.Thread.__init__(self)
       self.threadID = threadID
       self.name = name
       self.s = skt
+      self.rcvQ = q
    def run(self):
-       self.s.send("Toma a resposta porra".encode())
-       return True
+        #if not self.rcvQ.empty():
+        while True:
+            msg = self.rcvQ.get()
+            self.s.send(msg.encode())
 
 
 print (len(sys.argv))
@@ -21,22 +24,32 @@ port = int(sys.argv[1])
 host = '127.0.0.1'
 numPlayers = int(sys.argv[2])
 
-
 s = sock.socket(sock.AF_INET,sock.SOCK_STREAM,0)
 playerThreads = list()
+playerQueues = list()
 s.bind((host, port))
 ii = 0
+
 s.listen(numPlayers)
+
 while ii < numPlayers:
     cl_sock, cl_addr = s.accept()
-    player = sockThread(ii, "player"+str(ii), cl_sock)
+    q = queue.Queue(100)
+    player = sockThread(ii, "player"+str(ii), cl_sock, q)
     playerThreads.append(player)
-    data = cl_sock.recv(1024)
-    print(data.decode())   # Encoding e decoding was necessary in python3 but not python2
+    playerQueues.append(q)
     player.start()
-    player.join()
     ii+=1
 
-
-
-pos = list(data)
+print("reach here") 
+jj = 0
+ii = 0
+while True:
+    jj += 1
+    msg = "test"+str(jj)
+    print(msg)
+    playerQueues[ii].put(str(msg))
+    ii += 1
+    if ii >= len(playerQueues):
+        ii = 0
+    

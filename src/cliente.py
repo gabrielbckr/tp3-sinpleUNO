@@ -1,7 +1,7 @@
 import sys
 import socket as sock
+import time
 
-print (len(sys.argv))
 if (len(sys.argv))<3:
     print ("Uso: python3 servidor.py <host> <porta>")
 host = sys.argv[1]
@@ -11,12 +11,11 @@ if host == 'local' or host == 'Local':
 
 s = sock.socket(sock.AF_INET,sock.SOCK_STREAM,0)
 s.connect((host, port))
-data =  "a b c d "
 
-s.send(str(data).encode())
-
-data = s.recv(1024)
-print(data.decode())
-
+ii = 0
+while True:
+    data = s.recv(1024)
+    print(ii, " ", data.decode())
+    ii += 1
 
 s.close()

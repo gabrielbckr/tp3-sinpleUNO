@@ -20,12 +20,16 @@ class refuseConnection (threading.Thread):
     def __init__(self, sr):
         threading.Thread.__init__(self)
         self.s = sr
+        self.fstop = False
     def run(self):
-        self.s.listen(numPlayers)
-        r , rr = s.accept()
-        r.send("refuse".encode())
-        del(rr)
-        r.close()
+        while not self.fstop:
+            self.s.listen(numPlayers)
+            r , rr = s.accept()
+            r.send("refuse".encode())
+            del(rr)
+            r.close()
+    def stop(self):
+        self.fstop = True
 
 print (len(sys.argv))
 if (len(sys.argv))<2:

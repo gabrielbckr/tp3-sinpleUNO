@@ -1,7 +1,9 @@
 from Card import Card 
+import socketThread
 
-class Player:
-    def __init__(self):
+class Player (socketThread.sockThread):
+    def __init__(self, s, id = 0):
+        socketThread.sockThread.__init__(self,s, id)
         self.numCards = 0
         self.hand = list()
     # adds a card to players hand

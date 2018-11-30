@@ -1,21 +1,17 @@
 import sys
 import socket as sock
-import queue
-import threading
+from Interface import Interface 
+from socketThread import sockThread
+import threading 
+import time
 
-class sender (threading.Thread):
-    def __init__(self, sk, q):
+class thInterface (Interface, threading.Thread):
+    def __init__(self, s):
         threading.Thread.__init__(self)
-        self.server = sk 
-        self.sendQ = q
-        self.fstop = False
+        Interface.__init__(self)
+        self.m = s
     def run(self):
-        while not self.fstop:
-            if not self.sendQ.empty():
-                msg = self.sendQ.get()
-                self.server.send(msg.encode())
-    def stop(self):
-        self.fstop = True
+        self.solve(self.m)
 
 if (len(sys.argv))<3:
     print ("Uso: python3 servidor.py <host> <porta>")
@@ -26,13 +22,17 @@ if host == 'local' or host == 'Local':
 
 s = sock.socket(sock.AF_INET,sock.SOCK_STREAM,0)
 s.connect((host, port))
+server = sockThread(s)
 
-ii = 0
 while True:
-    data = s.recv(1024)
-    print(ii, " ", data.decode())
-    ii += 1
-    if data.decode() == "refuse":
+    iT = thInterface(server.get().decode())
+    iT.start()
+    time.sleep(0.05)
+    if iT.shouldStop:
+        iT._stop()
         break
+    if iT.shouldPost:
+        server.post(iT.answer)
+    
 
 s.close()

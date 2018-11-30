@@ -2,13 +2,14 @@
 from Card import Card
 
 class Interface:
-    hand = list()
     def __init__(self):
-        print("Hello")
-    def addCard(self, c):
-        self.hand.append(c)
+        self.shouldStop = 0 
+        self.shouldPost = 0 
+        self.answer = 0 
     def solve(self, cmd):
         print(cmd)
-    def showHand(self):
-        for cs in self.hand:
-            print(cs)
+        self.shouldStop = 0 
+        self.shouldPost = 0 
+        self.answer = 0 
+        if cmd == "refuse":
+            self.shouldStop = True

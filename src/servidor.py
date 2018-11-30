@@ -26,7 +26,7 @@ while ii < numPlayers:
     player.start()
     ii+=1
 
-refuser = socketThread.refuseConnection(s, "refuse")
+refuser = socketThread.refuseConnection(s, "F")
 refuser.start()
 
 jj = 0

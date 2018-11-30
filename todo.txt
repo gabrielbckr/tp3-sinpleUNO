@@ -1,0 +1,11 @@
+
+
+        - Caso o servidor sinalize ao cliente que ele se conectou com sucesso, o cliente imprimirá a seguinte mensagem:
+        `Entrando na partida, insira o nome do jogador:\n
+        (ATENÇÃO: repare na quebra de linha após os “:”)
+	-  Mensagem de texto (T)​
+        -  Mensagem de jogada (P)​ 
+        -  Mensagem de jogada inválida (I)​ 
+        -  Mensagem de perdeu a vez (Y)​ 
+        -  Mensagem de situação (S)​ 
+        -  Mensagem de fim de partida (E)​

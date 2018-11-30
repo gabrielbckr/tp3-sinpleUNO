@@ -17,4 +17,4 @@ class Deck:
         random.shuffle(self.cards)
     def get1stCard(self):
         self.numcards-=1
-        return self.cards[0]
+        return self.cards.pop()

@@ -3,10 +3,9 @@ import queue
 import threading
 
 class sockThread (threading.Thread):
-    def __init__(self,skt, threadID="none", name="none" ):
+    def __init__(self,skt, threadID="none" ):
       threading.Thread.__init__(self)
       self.threadID = threadID
-      self.name = name
       self.s = skt
       self.queue = queue.Queue(100)
       self.fstop = False

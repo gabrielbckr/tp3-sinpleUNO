@@ -21,18 +21,23 @@ class sockThread (threading.Thread):
         self.queue.put(m)
     def get(self):
         return self.s.recv(1024)
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.s.close()
 
 class refuseConnection (threading.Thread):
-    def __init__(self, sr):
+    def __init__(self, sr, m):
         threading.Thread.__init__(self)
         self.s = sr
         self.fstop = False
+        self.refMessage = m
     def run(self):
         while not self.fstop:
             self.s.listen(1)
             r , rr = self.s.accept()
-            r.send("refuse".encode())
+            r.send(self.refMessage.encode())
             del(rr)
             r.close()
     def stop(self):
         self.fstop = True
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.s.close()

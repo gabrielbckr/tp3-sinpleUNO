@@ -9,3 +9,4 @@
         -  Mensagem de perdeu a vez (Y)​ 
         -  Mensagem de situação (S)​ 
         -  Mensagem de fim de partida (E)​
+        -  definir numero de casrtas po jogador. pode ser um numero fixo ou um numero q varia com a qtdade de jogaroes. prefiro numero pixo e limitar o numero maximo de jogadores

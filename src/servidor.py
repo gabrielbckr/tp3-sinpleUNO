@@ -2,8 +2,9 @@ import sys
 import socket as sock
 import threading
 import time
+from Dealer import Dealer
+from Player import Player
 import socketThread
-
 
 print ("This is the Server")
 if (len(sys.argv))<2:
@@ -17,13 +18,14 @@ s.bind((host, port))
 
 # Conecta com Players
 ii = 0
-playerThreads = list()
+dealer = Dealer()
 s.listen(numPlayers)
 while ii < numPlayers:
     cl_sock, cl_addr = s.accept()
-    player = socketThread.sockThread(cl_sock, ii, "player"+str(ii))
-    playerThreads.append(player)
+    player = Player(cl_sock, ii )
+    player.setName("player"+str(ii))
     player.start()
+    dealer.addPlayer(player)
     ii+=1
 
 refuser = socketThread.refuseConnection(s, "F")
@@ -34,8 +36,8 @@ ii = 0
 while True:
     jj += 1
     msg = "Test "+str(jj)
-    playerThreads[ii].post(str(msg))
+    dealer.players[ii].post(str(msg))
     ii += 1
     time.sleep(0.05)
-    if ii >= len(playerThreads):
+    if ii >= len(dealer.players):
         ii = 0

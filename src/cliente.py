@@ -3,14 +3,15 @@ import socket as sock
 from Interface import Interface 
 from socketThread import sockThread
 import threading 
+import time
 
 class thInterface (Interface, threading.Thread):
     def __init__(self, s):
         threading.Thread.__init__(self)
         Interface.__init__(self)
-        self.s = s
+        self.m = s
     def run(self):
-        return self.solve(self.s)
+        self.solve(self.m)
 
 if (len(sys.argv))<3:
     print ("Uso: python3 servidor.py <host> <porta>")
@@ -25,11 +26,13 @@ server = sockThread(s)
 
 while True:
     iT = thInterface(server.get().decode())
-    stop, shouldPost, answer = iT.start()
-    if stop:
+    iT.start()
+    time.sleep(0.05)
+    if iT.shouldStop:
+        iT._stop()
         break
-    if shouldPost:
-        server.post(answer)
-
+    if iT.shouldPost:
+        server.post(iT.answer)
+    
 
 s.close()

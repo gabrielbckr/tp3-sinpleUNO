@@ -18,12 +18,12 @@ s.bind((host, port))
 
 # Conecta com Players
 ii = 0
+
 dealer = Dealer()
 s.listen(numPlayers)
 while ii < numPlayers:
     cl_sock, cl_addr = s.accept()
-    player = Player(cl_sock, ii )
-    player.setName("player"+str(ii))
+    player = Player(cl_sock, ii , True)
     player.start()
     dealer.addPlayer(player)
     ii+=1
@@ -33,10 +33,14 @@ refuser.start()
 
 jj = 0
 ii = 0
+dealer.giveCards()
+dealer.previousPlayer = dealer.players[-1]
+dealer.currentPlayer = dealer.players[0]
+dealer.currentCard = dealer.deck.get1stCard()
 while True:
     jj += 1
-    msg = "Test "+str(jj)
-    dealer.players[ii].post(str(msg))
+    msg = "T this is my test test"
+    dealer.players[ii].post(dealer.Ymessage(dealer.players[ii]))
     ii += 1
     time.sleep(0.05)
     if ii >= len(dealer.players):

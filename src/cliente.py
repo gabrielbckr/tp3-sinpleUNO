@@ -6,9 +6,9 @@ import threading
 import time
 
 class thInterface (Interface, threading.Thread):
-    def __init__(self, s):
+    def __init__(self, s,shouldStop,  sr):
         threading.Thread.__init__(self)
-        Interface.__init__(self)
+        Interface.__init__(self, shouldStop, sr)
         self.m = s
     def run(self):
         self.solve(self.m)
@@ -22,17 +22,11 @@ if host == 'local' or host == 'Local':
 
 s = sock.socket(sock.AF_INET,sock.SOCK_STREAM,0)
 s.connect((host, port))
-server = sockThread(s)
+server = sockThread(s, 0, False)
+server.start()
+shouldStop = False
 
 while True:
-    iT = thInterface(server.get().decode())
+    iT = thInterface(server.get(), shouldStop, server)
     iT.start()
     time.sleep(0.05)
-    if iT.shouldStop:
-        iT._stop()
-        break
-    if iT.shouldPost:
-        server.post(iT.answer)
-    
-
-s.close()

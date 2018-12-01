@@ -60,4 +60,3 @@ class Dealer:
             i = i # linha inutil pq o vscode fica enchendo  osaco
             for player in self.players:
                 player.addCard(self.deck.get1stCard())
-    

@@ -22,7 +22,7 @@ class sockThread (threading.Thread):
     def post(self, m):
         self.queue.put(m)
     def get(self):
-        return self.s.recv(1024)
+        return self.s.recv(1024).decode()
     def __exit__(self, exc_type, exc_value, traceback):
         self.s.close()
 

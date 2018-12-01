@@ -12,7 +12,6 @@ class Deck:
                 newCard = card(nums, clrs)
                 self.cards.append(newCard)
                 self.numcards+=1
-
     def shuffle(self):
         random.shuffle(self.cards)
     def get1stCard(self):

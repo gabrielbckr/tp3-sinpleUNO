@@ -11,7 +11,7 @@ class Interface:
     def solve(self, cmd):
         words = cmd.split()
         # Mensagem de Recusa
-        if words[0] == "F":
+        if   words[0] == "F":
             self.shouldStop = True
             print(cmd)
         # Mensagem de texto (T)​
@@ -21,10 +21,37 @@ class Interface:
             print("")
             #print(cmd)
         # Mensagem de jogada (P)​ 
+        elif words[0] == "P":
+            print("Seu turno de jogar, a carta na mesa é "+words[1])
+            print("Sua mão é: ",end="")
+            for ii in range(7):
+                print(words[2+ii], end=" ")
+            ii = 9
+            while ii < (len(words)-1):
+                print(words[ii]+" tem ", end ="")
+                ii+=1
+                print(words[ii]+" cartas")
+                ii+=1
         # Mensagem de jogada inválida (I)​ 
+        elif words[0] == "I":
+            print("Jogada inválida, a carta na mesa é "+words[1]+".")
+            print("Sua mão é:",end="")
+            for ii in range(2,len(words)-1):
+                print(words[ii],end=" ")
+            print("")
         # Mensagem de perdeu a vez (Y)​ 
         elif words[0] == "Y":
             print("Carta #! Você perdeu a vez!", end="")
+            print(" A carta na mesa é "+words[1]+".")
+            print("Sua mão é: ",end="")
+            for ii in range(7):
+                print(words[2+ii], end=" ")
+            ii = 9
+            while ii < (len(words)-1):
+                print(words[ii]+" tem ", end ="")
+                ii+=1
+                print(words[ii]+" cartas")
+                ii+=1
         # Mensagem de situação (S)​ 
         elif words[0] == "S":
             print(len(words))

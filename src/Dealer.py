@@ -11,6 +11,8 @@ class Dealer:
         self.deck.shuffle()
         # self.currentCard
     def addPlayer(self, p):
+        p.post("O")
+        p.setName(p.get())
         self.players.append(p)
     def rungame(self):
         self.previousPlayer = self.players[-1]
@@ -36,24 +38,30 @@ class Dealer:
         for player in self.players:
             if player is not p:
                 string+=str(player.name)+" "+str(player.numCards)
-        return string
+        return "P "+string
     def Smessage(self, nome1, nome2, p):
         if type(p) is int:
             p = self.players[p] 
         string=nome1+" "+self.currentCard.number+self.currentCard.color+" "+nome2+" "+p.getHand()+" "
         for player in self.players:
             if player is not p:
-                string+=str(player.name)+" "+str(player.numCards)
+                string+=str(player.name)+" "+str(player.numCards)+" "
         return "S "+string
     def Imessage(self, p):
         if type(p) is int:
             p = self.players[p] 
-        string = self.currentCard+" "+p.getHand()
+        string = self.currentCard.number+self.currentCard.color+" "+p.getHand()
         return "I "+string
     def Emessage(self, p):
         if type(p) is int:
             p = self.players[p] 
         return "E "+p.name
+    def Ymessage(self, p):
+        string = self.currentCard.number+self.currentCard.color+" "+p.getHand()+" "
+        for player in self.players:
+            if player is not p:
+                string+=str(player.name)+" "+str(player.numCards)
+        return "Y " + string
     def giveCards(self):
         numofcards = 7
         for i in range(numofcards):

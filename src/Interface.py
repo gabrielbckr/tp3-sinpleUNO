@@ -2,21 +2,17 @@
 from Card import Card
 
 class Interface:
-    def __init__(self):
-        self.shouldStop = 0 
-        self.shouldPost = 0 
-        self.answer = 0 
+    def __init__(self,shouldStop, s):
+        self.shouldStop = shouldStop
+        self.name = "def"
+        self.server = s
+        self.shouldStop = False
     def solve(self, cmd):
-        self.shouldStop = 0 
-        self.shouldPost = 0 
-        self.answer = 0
-        cmd.split()[0]
         words = cmd.split()
-
         # Mensagem de Recusa
         if words[0] == "F":
-            print(cmd)
             self.shouldStop = True
+            print(cmd)
         # Mensagem de texto (T)​
         elif words[0] == "T":
             for word in range(1, len(words)):
@@ -28,4 +24,13 @@ class Interface:
         # Mensagem de perdeu a vez (Y)​ 
         # Mensagem de situação (S)​ 
         # Mensagem de fim de partida (E)​
-            
+        elif words[0] == "E":
+            self.shouldStop = True
+            if words[1] == self.name:
+                print("Voce venceu a partida!")
+            else:
+                print(words[1]+" Venceu a partida!")
+        # Mensagem de inicio de partida (O) para enviar o nome do jogador
+        elif words[0] == "O":
+            self.name = input("Entrando na partida, insira o nome do jogador:\n")
+            self.server.post(self.name)

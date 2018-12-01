@@ -3,17 +3,20 @@ import queue
 import threading
 
 class sockThread (threading.Thread):
-    def __init__(self,skt, threadID="none" ):
+    def __init__(self,skt, threadID="none", fl = "False"):
       threading.Thread.__init__(self)
       self.threadID = threadID
       self.s = skt
       self.queue = queue.Queue(100)
       self.fstop = False
+      self.flag = fl
     def run(self):
         while not self.fstop:
             if not self.queue.empty():
                 msg = self.queue.get()
                 self.s.send(msg.encode())
+                if self.flag:
+                    print(msg)
     def stop(self):
         self.fstop = True
     def post(self, m):

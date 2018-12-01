@@ -1,6 +1,7 @@
 
 from Card import Card
 
+numofcards = 7
 class Interface:
     def __init__(self,shouldStop, s):
         self.shouldStop = shouldStop
@@ -22,7 +23,23 @@ class Interface:
         # Mensagem de jogada (P)​ 
         # Mensagem de jogada inválida (I)​ 
         # Mensagem de perdeu a vez (Y)​ 
+        elif words[0] == "Y":
+            print("Carta #! Você perdeu a vez!", end="")
         # Mensagem de situação (S)​ 
+        elif words[0] == "S":
+            print(len(words))
+            print(words[1]+" jogou a carta "+words[2]+".")
+            print("É a vez de "+words[3]+".")
+            print("Sua mão é: ",end="")
+            for ii in range(7):
+                print(words[4+ii], end=" ")
+            print("")
+            ii = 11
+            while ii < (len(words)-1):
+                print(words[ii]+" tem ", end ="")
+                ii+=1
+                print(words[ii]+" cartas")
+                ii+=1
         # Mensagem de fim de partida (E)​
         elif words[0] == "E":
             self.shouldStop = True

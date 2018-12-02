@@ -1,7 +1,6 @@
 import sys
 import socket as sock
 import threading
-import time
 from Dealer import Dealer
 from Player import Player
 import socketThread
@@ -30,17 +29,5 @@ while ii < numPlayers:
 
 refuser = socketThread.refuseConnection(s, "F")
 refuser.start()
-
-jj = 0
-ii = 0
 dealer.rungame()
-
-
-#while True:
-#    jj += 1
-#    msg = "T this is my test test"
-#    dealer.players[ii].post(dealer.Ymessage(dealer.players[ii]))
-#    ii += 1
-#    time.sleep(0.05)
-#    if ii >= len(dealer.players):
-#        ii = 0
+refuser.stop()

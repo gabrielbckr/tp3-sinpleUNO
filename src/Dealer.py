@@ -14,9 +14,16 @@ class Dealer:
         p.setName(p.get())
         self.players.append(p)
     def rungame(self):
+        self.giveCards()
         self.previousPlayer = self.players[-1]
         self.currentPlayer = self.players[0]
         self.currentCard = self.deck.get1stCard()
+        for player in self.players:
+            if  player is not self.currentPlayer: #### DEBUG
+                message = self.Smessage(self.previousPlayer.name,
+                                        self.currentPlayer.name,
+                                        player)
+                player.post(message)
         while not self.EndGame:
             self.round()
     def round(self):
@@ -26,7 +33,6 @@ class Dealer:
         # Enquanto a mensagem ta errada 
         while True:
             answer = self.currentPlayer.get()
-            print(answer)  ###################### DEBUG
             answer = answer.split()
             if answer[0] == 'P':
                 self.currentPlayer.addCard(self.deck.get1stCard())
@@ -36,40 +42,44 @@ class Dealer:
             elif len(answer) == 3:
                 if answer[0] == 'C':
                     thisC = Card(answer[1],answer[2])
-                    print(thisC)
                     if self.valid(self.currentPlayer,thisC):
-                        self.currentCard = self.currentPlayer.throwCard(
-                            self.currentPlayer.hasCard(thisC))
+                        self.currentCard = self.currentPlayer.throwCard(thisC)
                         self.previousPlayer = self.currentPlayer
                         self.currentPlayer = self.nextPlayer()
                         break
             message = self.Imessage(self.currentPlayer)
             self.currentPlayer.post(message)
-
-            
+        # Se as casrtas do jogador acabou
+        if self.previousPlayer.numCards == 0:
+            # jogo acabou
+            self.EndGame = True
+            for player in self.players:
+                player.post(self.Emessage(self.currentPlayer))
+        # SE a Carta enviada é o coringa
+        if self.currentCard.isJoker():
+            self.currentPlayer.post(self.Ymessage(self.currentPlayer))
+            self.currentPlayer = self.nextPlayer() 
         # Envia mensagcem S para todos os outros jogadores
         for player in self.players:
-            if player is not self.previousPlayer and player is not self.currentPlayer:
-                message = self.Smessage(self.currentPlayer.name,
-                                        self.previousPlayer.name,
+            if  player is not self.currentPlayer: #### DEBUG
+                message = self.Smessage(self.previousPlayer.name,
+                                        self.currentPlayer.name,
                                         player)
                 player.post(message)
-        # Checa estado do Jogo
-        
-        self.Smessage(self.previousPlayer.name, self.currentPlayer.name, self.currentPlayer)
-        # Muda de jogador
     def Pmessage(self, p):
         if type(p) is int:
             p = self.players[p] 
         string = self.currentCard.number+self.currentCard.color+" "+p.getHand()+" "
+        string+="X "
         for player in self.players:
             if player is not p:
-                string+=str(player.name)+" "+str(player.numCards)
+                string+=str(player.name)+" "+str(player.numCards)+" "
         return "P "+string
     def Smessage(self, nome1, nome2, p):
         if type(p) is int:
             p = self.players[p] 
         string=nome1+" "+self.currentCard.number+self.currentCard.color+" "+nome2+" "+p.getHand()+" "
+        string+="X "
         for player in self.players:
             if player is not p:
                 string+=str(player.name)+" "+str(player.numCards)+" "
@@ -78,19 +88,20 @@ class Dealer:
         if type(p) is int:
             p = self.players[p] 
         string = self.currentCard.number+self.currentCard.color+" "+p.getHand()
-        return "I "+string
+        return "I "+string+"X"
     def Emessage(self, p):
         if type(p) is int:
             p = self.players[p] 
         return "E "+p.name
     def Ymessage(self, p):
         string = self.currentCard.number+self.currentCard.color+" "+p.getHand()+" "
+        string+="X "
         for player in self.players:
             if player is not p:
-                string+=str(player.name)+" "+str(player.numCards)
+                string+=str(player.name)+" "+str(player.numCards)+ " "
         return "Y " + string
     def giveCards(self):
-        numofcards = 7
+        numofcards = 2
         for i in range(numofcards):
             i = i # linha inutil pq o vscode fica enchendo  osaco
             for player in self.players:
@@ -98,7 +109,8 @@ class Dealer:
     def valid(self, p, card):
         idx = self.currentPlayer.hasCard(card)
         if idx > -1:
-            if self.currentPlayer.hand[idx].isValid(card):
+            if self.currentCard.isValid(
+                    self.currentPlayer.hand[idx]):
                 return True
         return False
     def nextPlayer(self):

@@ -106,7 +106,7 @@ class Dealer:
                 string+=str(player.name)+" "+str(player.numCards)+ " "
         return "Y " + string
     def giveCards(self):
-        numofcards = 2
+        numofcards = 7
         for i in range(numofcards):
             i = i # linha inutil pq o vscode fica enchendo  osaco
             for player in self.players:

@@ -19,6 +19,8 @@ s.bind((host, port))
 ii = 0
 
 dealer = Dealer()
+if numPlayers > 6:
+    numPlayers = 6
 s.listen(numPlayers)
 while ii < numPlayers:
     cl_sock, cl_addr = s.accept()

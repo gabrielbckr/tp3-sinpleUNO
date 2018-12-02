@@ -27,18 +27,23 @@ class Interface:
             for ii in range(7):
                 print(words[2+ii], end=" ")
             ii = 9
+            print("")
             while ii < (len(words)-1):
                 print(words[ii]+" tem ", end ="")
                 ii+=1
                 print(words[ii]+" cartas")
                 ii+=1
+            m = input()
+            self.server.post(m)
         # Mensagem de jogada inválida (I)​ 
         elif words[0] == "I":
             print("Jogada inválida, a carta na mesa é "+words[1]+".")
-            print("Sua mão é:",end="")
+            print("Sua mão é: ",end="")
             for ii in range(2,len(words)-1):
                 print(words[ii],end=" ")
             print("")
+            m = input()
+            self.server.post(m)
         # Mensagem de perdeu a vez (Y)​ 
         elif words[0] == "Y":
             print("Carta #! Você perdeu a vez!", end="")
@@ -46,6 +51,7 @@ class Interface:
             print("Sua mão é: ",end="")
             for ii in range(7):
                 print(words[2+ii], end=" ")
+            print("\n")
             ii = 9
             while ii < (len(words)-1):
                 print(words[ii]+" tem ", end ="")

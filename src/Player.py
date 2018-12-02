@@ -19,11 +19,11 @@ class Player (socketThread.sockThread):
         del self.hand[ii]
         self.numCards-=1
         return cc
-    def hasValidCard(self, actualCard):
-        for cs in self.hand:
-            if actualCard.isValid(cs):
-                return True
-        return False
+    def hasCard(self, c):
+        for ii in range(0,len(self.hand)-1):
+            if self.hand[ii].number == c.number and self.hand[ii].color == c.color:
+                return ii
+        return -1
     def isUNO(self):
         return self.numCards == 1
     def getHand(self):

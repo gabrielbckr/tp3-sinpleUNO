@@ -17,3 +17,5 @@ class Deck:
     def get1stCard(self):
         self.numcards-=1
         return self.cards.pop()
+    def append(self, c):
+        self.cards.append(c)

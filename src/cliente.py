@@ -20,7 +20,7 @@ port = int(sys.argv[2])
 if host == 'local' or host == 'Local':
     host = '127.0.0.1'
 
-s = sock.socket(sock.AF_INET,sock.SOCK_STREAM,0)
+s = sock.socket(sock.AF_INET,sock.SOCK_STREAM)
 s.connect((host, port))
 server = sockThread(s, 0, False)
 server.start()

@@ -13,7 +13,7 @@ port = int(sys.argv[1])
 host = '127.0.0.1'
 numPlayers = int(sys.argv[2])
 
-s = sock.socket(sock.AF_INET,sock.SOCK_STREAM,0)
+s = sock.socket(sock.AF_INET,sock.SOCK_STREAM)
 s.bind((host, port))
 
 # Conecta com Players
@@ -33,10 +33,7 @@ refuser.start()
 
 jj = 0
 ii = 0
-dealer.giveCards()
-dealer.previousPlayer = dealer.players[-1]
-dealer.currentPlayer = dealer.players[0]
-dealer.currentCard = dealer.deck.get1stCard()
+dealer.rungame()
 
 
 #while True:
@@ -47,6 +44,3 @@ dealer.currentCard = dealer.deck.get1stCard()
 #    time.sleep(0.05)
 #    if ii >= len(dealer.players):
 #        ii = 0
-
-dealer.round()
-dealer.round()

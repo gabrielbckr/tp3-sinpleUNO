@@ -14,15 +14,16 @@ class Player (socketThread.sockThread):
         self.hand.append(newCard)
         self.numCards+=1
     # removes a card, indicated by its position, from players hand and returns it 
-    def throwCard(self, ii):
-        cc = self.hand[ii]
-        del self.hand[ii]
+    def throwCard(self, card):
+        idx = self.hasCard(card)
+        cc = self.hand[idx]
+        del self.hand[idx]
         self.numCards-=1
         return cc
     def hasCard(self, c):
-        for ii in range(0,len(self.hand)-1):
-            if self.hand[ii].number == c.number and self.hand[ii].color == c.color:
-                return ii
+        for cards in self.hand:
+            if cards.number == c.number and cards.color == c.color:
+                return self.hand.index(cards)
         return -1
     def isUNO(self):
         return self.numCards == 1

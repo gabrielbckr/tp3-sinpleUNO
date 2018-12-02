@@ -37,11 +37,16 @@ dealer.giveCards()
 dealer.previousPlayer = dealer.players[-1]
 dealer.currentPlayer = dealer.players[0]
 dealer.currentCard = dealer.deck.get1stCard()
-while True:
-    jj += 1
-    msg = "T this is my test test"
-    dealer.players[ii].post(dealer.Ymessage(dealer.players[ii]))
-    ii += 1
-    time.sleep(0.05)
-    if ii >= len(dealer.players):
-        ii = 0
+
+
+#while True:
+#    jj += 1
+#    msg = "T this is my test test"
+#    dealer.players[ii].post(dealer.Ymessage(dealer.players[ii]))
+#    ii += 1
+#    time.sleep(0.05)
+#    if ii >= len(dealer.players):
+#        ii = 0
+
+dealer.round()
+dealer.round()

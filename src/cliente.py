@@ -5,14 +5,6 @@ from socketThread import sockThread
 import threading 
 import time
 
-class thInterface (Interface, threading.Thread):
-    def __init__(self, s,shouldStop,  sr):
-        threading.Thread.__init__(self)
-        Interface.__init__(self, shouldStop, sr)
-        self.m = s
-    def run(self):
-        self.solve(self.m)
-
 if (len(sys.argv))<3:
     print ("Uso: python3 servidor.py <host> <porta>")
 host = sys.argv[1]
@@ -26,7 +18,11 @@ server = sockThread(s, 0, False)
 server.start()
 shouldStop = False
 
+iT = Interface(server)
 while True:
-    iT = thInterface(server.get(), shouldStop, server)
-    iT.start()
+    iT.solve(server.get())
     time.sleep(0.05)
+    if iT.shouldStop:
+        time.sleep(5)
+        break
+server.stop()

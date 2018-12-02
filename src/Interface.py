@@ -2,8 +2,8 @@
 from Card import Card
 
 class Interface:
-    def __init__(self,shouldStop, s):
-        self.shouldStop = shouldStop
+    def __init__(self, s):
+        self.shouldStop = False
         self.name = "def"
         self.server = s
         self.shouldStop = False
@@ -42,7 +42,6 @@ class Interface:
             self.printPlayers(words[2:])
         # Mensagem de situação (S)​ 
         elif words[0] == "S":
-            print(len(words))
             print(words[1]+" jogou a carta "+words[2]+".")
             print("É a vez de "+words[3]+".")
             print("Sua mão é: ",end="")

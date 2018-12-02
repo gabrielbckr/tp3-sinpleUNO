@@ -25,7 +25,10 @@ class Dealer:
                                         player)
                 player.post(message)
         while not self.EndGame:
+            self.deck.shuffle()
             self.round()
+        for ps in self.players:
+            ps.stop()
     def round(self):
         # Avisa de quem é a vez
         message = self.Pmessage(self.currentPlayer)
@@ -43,6 +46,7 @@ class Dealer:
                 if answer[0] == 'C':
                     thisC = Card(answer[1],answer[2])
                     if self.valid(self.currentPlayer,thisC):
+                        self.deck.append(self.currentCard)
                         self.currentCard = self.currentPlayer.throwCard(thisC)
                         self.previousPlayer = self.currentPlayer
                         self.currentPlayer = self.nextPlayer()
@@ -54,7 +58,8 @@ class Dealer:
             # jogo acabou
             self.EndGame = True
             for player in self.players:
-                player.post(self.Emessage(self.currentPlayer))
+                player.post(self.Emessage(self.previousPlayer))
+            return 
         # SE a Carta enviada é o coringa
         if self.currentCard.isJoker():
             self.currentPlayer.post(self.Ymessage(self.currentPlayer))

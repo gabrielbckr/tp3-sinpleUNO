@@ -12,11 +12,16 @@ port = int(sys.argv[2])
 if host == 'local' or host == 'Local':
     host = '127.0.0.1'
 
-s = sock.socket(sock.AF_INET,sock.SOCK_STREAM)
-s.connect((host, port))
+#family_info, type_info, res = sock.getaddrinfo(host, port)
+#s = sock.socket(family_info, type_info)
+#s.connect((host, port))
+for res in sock.getaddrinfo(host, port, 0, sock.SOCK_STREAM):
+    af, socktype, proto, _, sa = res
+    s = sock.socket(af, socktype, proto)
+    s.connect(sa)
 server = sockThread(s, 0, False)
 server.start()
-shouldStop = False
+
 
 iT = Interface(server)
 while True:

@@ -1,7 +1,6 @@
 
 from Card import Card
 
-numofcards = 7
 class Interface:
     def __init__(self,shouldStop, s):
         self.shouldStop = shouldStop
@@ -19,60 +18,36 @@ class Interface:
             for word in range(1, len(words)):
                 print(words[word], end=" ")
             print("")
-            #print(cmd)
         # Mensagem de jogada (P)​ 
         elif words[0] == "P":
             print("Seu turno de jogar, a carta na mesa é "+words[1])
             print("Sua mão é: ",end="")
-            for ii in range(7):
-                print(words[2+ii], end=" ")
-            ii = 9
-            print("")
-            while ii < (len(words)-1):
-                print(words[ii]+" tem ", end ="")
-                ii+=1
-                print(words[ii]+" cartas")
-                ii+=1
+            self.printHand(words[2:])
+            self.printPlayers(words[2:])
             m = input()
             self.server.post(m)
         # Mensagem de jogada inválida (I)​ 
         elif words[0] == "I":
             print("Jogada inválida, a carta na mesa é "+words[1]+".")
             print("Sua mão é: ",end="")
-            for ii in range(2,len(words)-1):
-                print(words[ii],end=" ")
-            print("")
+            self.printHand(words[2:])
             m = input()
             self.server.post(m)
         # Mensagem de perdeu a vez (Y)​ 
         elif words[0] == "Y":
-            print("Carta #! Você perdeu a vez!", end="")
-            print(" A carta na mesa é "+words[1]+".")
+            print("Carta #! Você perdeu a vez!", end=" ")
+            print("A carta na mesa é "+words[1]+".")
             print("Sua mão é: ",end="")
-            for ii in range(7):
-                print(words[2+ii], end=" ")
-            print("\n")
-            ii = 9
-            while ii < (len(words)-1):
-                print(words[ii]+" tem ", end ="")
-                ii+=1
-                print(words[ii]+" cartas")
-                ii+=1
+            self.printHand(words[2:])
+            self.printPlayers(words[2:])
         # Mensagem de situação (S)​ 
         elif words[0] == "S":
             print(len(words))
             print(words[1]+" jogou a carta "+words[2]+".")
             print("É a vez de "+words[3]+".")
             print("Sua mão é: ",end="")
-            for ii in range(7):
-                print(words[4+ii], end=" ")
-            print("")
-            ii = 11
-            while ii < (len(words)-1):
-                print(words[ii]+" tem ", end ="")
-                ii+=1
-                print(words[ii]+" cartas")
-                ii+=1
+            self.printHand(words[4:])
+            self.printPlayers(words[4:])
         # Mensagem de fim de partida (E)​
         elif words[0] == "E":
             self.shouldStop = True
@@ -84,3 +59,20 @@ class Interface:
         elif words[0] == "O":
             self.name = input("Entrando na partida, insira o nome do jogador:\n")
             self.server.post(self.name)
+        del words
+    def printHand(self,words):
+        ii = 0
+        while words[ii] != 'X' :
+            print(words[ii], end=" ")
+            ii += 1
+        print("")
+    def printPlayers(self,words):
+        ii = 0
+        while words[ii] != 'X':
+            ii+=1
+        ii += 1
+        while ii < (len(words)-1):
+            print(words[ii]+" tem ", end ="")
+            ii+=1
+            print(words[ii]+" cartas")
+            ii+=1
